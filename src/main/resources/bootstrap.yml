@@ -1,0 +1,16 @@
+#服务注册eureka时使用ip
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${server.post}
+    ip-address: ${spring.cloud.client.ipAddress}
+    prefer-ip-address: true
+spring:
+  application:
+    name: user-center
+#  profiles:
+#    active: local
+  cloud:
+    config:
+      uri: http://haijun:1qaz2wsx@120.79.19.207:2222
+      label: master
+      profile: dev
