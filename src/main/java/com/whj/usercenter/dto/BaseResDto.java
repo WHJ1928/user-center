@@ -38,7 +38,7 @@ public class BaseResDto<T> implements Serializable{
      */
     public final static String FAIL_USER_PROHIBIT_LOGIN = "U1004";
     public final static String SUC_REGISTER_MSG = "注册成功";
-    public static final String SUC_PHONE_MSG = "该手机号已注册，请您登录";
+    public static final String SUC_EXISTED_MSG = "该用户已存在，请您登录";
     public final static String SUC_LOGIN_MSG = "登录成功";
     public static final String SUC_NOT_USER_MSG = "用户不存在";
     public final static String FAIL_REGISTER_MSG = "注册失败";

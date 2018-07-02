@@ -5,8 +5,10 @@ import com.whj.usercenter.dao.UserMessage;
 import com.whj.usercenter.dao.UserMessageExample;
 import com.whj.usercenter.dto.BaseResDto;
 import com.whj.usercenter.dto.request.UserRegisterReqDto;
+import com.whj.usercenter.dto.response.UserRegisterResDto;
 import com.whj.usercenter.mapper.UserMessageMapper;
 import com.whj.usercenter.service.UserService;
+import com.whj.usercenter.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -23,6 +25,8 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserMessageMapper userMessageMapper;
+    @Autowired
+    private StringUtil util;
     @Override
     public BaseResDto<JSONObject> userRegister(UserRegisterReqDto registerReqDto) {
         String userName = registerReqDto.getUserName();
@@ -30,9 +34,31 @@ public class UserServiceImpl implements UserService{
         userMessageExample.createCriteria().andUsernameEqualTo(userName);
         List<UserMessage> userMessageList = userMessageMapper.selectByExample(userMessageExample);
         if (CollectionUtils.isEmpty(userMessageList)){
+            UserMessage userMessage = regDto2Po(registerReqDto);
+            userMessageMapper.insertSelective(userMessage);
 
+            UserRegisterResDto registerResDto = new UserRegisterResDto();
+            registerResDto.setUserId(userMessage.getUserid());
+            BaseResDto baseResDto = BaseResDto.createResult(BaseResDto.SUC_REGISTER,BaseResDto.SUC_REGISTER_MSG);
+            baseResDto.setT(JSONObject.toJSON(registerResDto));
+            return baseResDto;
+        }else {
+            BaseResDto baseResDto = BaseResDto.createResult(BaseResDto.FAIL_REGISTER,BaseResDto.SUC_EXISTED_MSG);
+            return baseResDto;
         }
+    }
 
-        return null;
+    /**
+     * dto转po
+     * @param registerReqDto
+     * @return
+     */
+    private UserMessage regDto2Po(UserRegisterReqDto registerReqDto){
+        UserMessage userMessage = new UserMessage();
+        userMessage.setUserid("U"+util.getDefaultId());
+        userMessage.setUsername(registerReqDto.getUserName());
+        userMessage.setPassword(registerReqDto.getPassword());
+        userMessage.setCreatetime(util.getCurrentTimeStr("yyyy/MM/dd HH:mm:ss"));
+        return userMessage;
     }
 }
