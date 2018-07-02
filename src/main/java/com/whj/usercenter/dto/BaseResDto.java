@@ -44,8 +44,8 @@ public class BaseResDto<T> implements Serializable{
     public final static String FAIL_REGISTER_MSG = "注册失败";
     public final static String FAIL_LOGIN_MSG = "登录失败";
     public final static String FAIL_USER_PROHIBIT_MSG = "用户已锁定,禁止登录";
-    public final static String FAIL_USERNAME_ERROR_MSG = "用户名错误";
-    public final static String FAIL_PSW_ERROR_MSG = "登录密码错误";
+    public final static String FAIL_USERNAME_ERROR_MSG = "用户名或密码错误";
+    public final static String FAIL_ERROR_MSG = "登录密码错误";
     public final static String FAIL_PSW_SAME_MSG = "新密码与旧密码不能相同";
 
     /**
