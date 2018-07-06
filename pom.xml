@@ -5,7 +5,7 @@
 
 	<groupId>com.whj</groupId>
 	<artifactId>user-center</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>v1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>user-center</name>
@@ -123,7 +123,7 @@
 	</dependencyManagement>
 
     <build>
-        <finalName>config-server</finalName>
+        <finalName>user-center</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

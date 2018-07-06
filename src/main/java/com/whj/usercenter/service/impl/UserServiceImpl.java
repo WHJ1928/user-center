@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService{
                 baseResDto.setT(JSONObject.toJSON(loginResDto));
                 return baseResDto;
             }else {
-                return BaseResDto.createResult(BaseResDto.FAIL_LOGIN_MSG,BaseResDto.FAIL_ERROR_MSG);
+                return BaseResDto.createResult(BaseResDto.FAIL_LOGIN,BaseResDto.FAIL_ERROR_MSG);
             }
         }
     }
