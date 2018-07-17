@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.whj.usercenter.dto.BaseResDto;
 import com.whj.usercenter.dto.request.UserLoginReqDto;
 import com.whj.usercenter.dto.request.UserRegisterReqDto;
-import com.whj.usercenter.dto.response.UserLoginResDto;
 import com.whj.usercenter.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

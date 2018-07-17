@@ -10,7 +10,10 @@ import com.whj.usercenter.dto.response.UserLoginResDto;
 import com.whj.usercenter.dto.response.UserRegisterResDto;
 import com.whj.usercenter.mapper.UserMessageMapper;
 import com.whj.usercenter.service.UserService;
+import com.whj.usercenter.util.LogOut;
 import com.whj.usercenter.util.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -24,7 +27,7 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService{
-
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private UserMessageMapper userMessageMapper;
     @Autowired
@@ -38,13 +41,14 @@ public class UserServiceImpl implements UserService{
         if (CollectionUtils.isEmpty(userMessageList)){
             UserMessage userMessage = regDto2Po(registerReqDto);
             userMessageMapper.insertSelective(userMessage);
-
+            LogOut.info(logger, "", "", "用户注册",  "成功", "");
             UserRegisterResDto registerResDto = new UserRegisterResDto();
             registerResDto.setUserId(userMessage.getUserid());
             BaseResDto baseResDto = BaseResDto.createResult(BaseResDto.SUC_REGISTER,BaseResDto.SUC_REGISTER_MSG);
             baseResDto.setT(JSONObject.toJSON(registerResDto));
             return baseResDto;
         }else {
+            LogOut.info(logger, "", "", "用户注册",  "失败", "用户已存在");
             BaseResDto baseResDto = BaseResDto.createResult(BaseResDto.FAIL_REGISTER,BaseResDto.SUC_EXISTED_MSG);
             return baseResDto;
         }
@@ -76,6 +80,7 @@ public class UserServiceImpl implements UserService{
         messageExample.createCriteria().andUsernameEqualTo(username);
         List<UserMessage> userMessageList = userMessageMapper.selectByExample(messageExample);
         if (CollectionUtils.isEmpty(userMessageList)){
+            LogOut.info(logger, "", "", "用户登录",  "失败", "用户不存在");
             return BaseResDto.createResult(BaseResDto.FAIL_LOGIN_MSG,BaseResDto.SUC_NOT_USER_MSG);
         }else {
             UserMessage userMessage = userMessageList.get(0);
@@ -83,10 +88,12 @@ public class UserServiceImpl implements UserService{
                     &&loginReqDto.getPassword().equals(userMessage.getPassword())){
                 UserLoginResDto loginResDto = new UserLoginResDto();
                 loginResDto.setUserId(userMessage.getUserid());
+                LogOut.info(logger, "", "", "用户登录",  "成功", "");
                 BaseResDto baseResDto = BaseResDto.createResult(BaseResDto.SUC_LOGIN,BaseResDto.SUC_LOGIN_MSG);
                 baseResDto.setT(JSONObject.toJSON(loginResDto));
                 return baseResDto;
             }else {
+                LogOut.info(logger, "", "", "用户登录",  "失败", "用户名或密码错误");
                 return BaseResDto.createResult(BaseResDto.FAIL_LOGIN,BaseResDto.FAIL_ERROR_MSG);
             }
         }
