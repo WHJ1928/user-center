@@ -4,5 +4,5 @@ VOLUME /var
 ENV TZ="Asia/Shanghai" HOME="/var/app/"
 WORKDIR ${HOME}
 ADD user-center.jar /var/app/user-center.jar
-EXPOSE 2222
+EXPOSE 8000
 ENTRYPOINT ["java" , "-Djava.security.egd=file:/dev/./urandom", "-jar" ,"/var/app/user-center.jar"]
