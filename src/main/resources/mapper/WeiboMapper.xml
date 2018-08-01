@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whj.usercenter.mapper.WeiboMapper" >
+  <resultMap id="BaseResultMap" type="com.whj.usercenter.dao.Weibo" >
+    <id column="userId" property="userid" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="fansNum" property="fansnum" jdbcType="BIGINT" />
+    <result column="blogNum" property="blognum" jdbcType="BIGINT" />
+    <result column="originalBlogNum" property="originalblognum" jdbcType="BIGINT" />
+    <result column="followNum" property="follownum" jdbcType="BIGINT" />
+    <result column="homeLink" property="homelink" jdbcType="VARCHAR" />
+    <result column="registrationTime" property="registrationtime" jdbcType="VARCHAR" />
+    <result column="blogAuthenticate" property="blogauthenticate" jdbcType="VARCHAR" />
+    <result column="industry" property="industry" jdbcType="VARCHAR" />
+    <result column="BCI" property="bci" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    userId, username, fansNum, blogNum, originalBlogNum, followNum, homeLink, registrationTime, 
+    blogAuthenticate, industry, BCI
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.whj.usercenter.dao.WeiboExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from weibo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from weibo
+    where userId = #{userid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from weibo
+    where userId = #{userid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.whj.usercenter.dao.WeiboExample" >
+    delete from weibo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.whj.usercenter.dao.Weibo" >
+    insert into weibo (userId, username, fansNum, 
+      blogNum, originalBlogNum, followNum, 
+      homeLink, registrationTime, blogAuthenticate, 
+      industry, BCI)
+    values (#{userid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{fansnum,jdbcType=BIGINT}, 
+      #{blognum,jdbcType=BIGINT}, #{originalblognum,jdbcType=BIGINT}, #{follownum,jdbcType=BIGINT}, 
+      #{homelink,jdbcType=VARCHAR}, #{registrationtime,jdbcType=VARCHAR}, #{blogauthenticate,jdbcType=VARCHAR}, 
+      #{industry,jdbcType=VARCHAR}, #{bci,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.whj.usercenter.dao.Weibo" >
+    insert into weibo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="fansnum != null" >
+        fansNum,
+      </if>
+      <if test="blognum != null" >
+        blogNum,
+      </if>
+      <if test="originalblognum != null" >
+        originalBlogNum,
+      </if>
+      <if test="follownum != null" >
+        followNum,
+      </if>
+      <if test="homelink != null" >
+        homeLink,
+      </if>
+      <if test="registrationtime != null" >
+        registrationTime,
+      </if>
+      <if test="blogauthenticate != null" >
+        blogAuthenticate,
+      </if>
+      <if test="industry != null" >
+        industry,
+      </if>
+      <if test="bci != null" >
+        BCI,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="fansnum != null" >
+        #{fansnum,jdbcType=BIGINT},
+      </if>
+      <if test="blognum != null" >
+        #{blognum,jdbcType=BIGINT},
+      </if>
+      <if test="originalblognum != null" >
+        #{originalblognum,jdbcType=BIGINT},
+      </if>
+      <if test="follownum != null" >
+        #{follownum,jdbcType=BIGINT},
+      </if>
+      <if test="homelink != null" >
+        #{homelink,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationtime != null" >
+        #{registrationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="blogauthenticate != null" >
+        #{blogauthenticate,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="bci != null" >
+        #{bci,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update weibo
+    <set >
+      <if test="record.userid != null" >
+        userId = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null" >
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fansnum != null" >
+        fansNum = #{record.fansnum,jdbcType=BIGINT},
+      </if>
+      <if test="record.blognum != null" >
+        blogNum = #{record.blognum,jdbcType=BIGINT},
+      </if>
+      <if test="record.originalblognum != null" >
+        originalBlogNum = #{record.originalblognum,jdbcType=BIGINT},
+      </if>
+      <if test="record.follownum != null" >
+        followNum = #{record.follownum,jdbcType=BIGINT},
+      </if>
+      <if test="record.homelink != null" >
+        homeLink = #{record.homelink,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registrationtime != null" >
+        registrationTime = #{record.registrationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogauthenticate != null" >
+        blogAuthenticate = #{record.blogauthenticate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.industry != null" >
+        industry = #{record.industry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bci != null" >
+        BCI = #{record.bci,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update weibo
+    set userId = #{record.userid,jdbcType=VARCHAR},
+      username = #{record.username,jdbcType=VARCHAR},
+      fansNum = #{record.fansnum,jdbcType=BIGINT},
+      blogNum = #{record.blognum,jdbcType=BIGINT},
+      originalBlogNum = #{record.originalblognum,jdbcType=BIGINT},
+      followNum = #{record.follownum,jdbcType=BIGINT},
+      homeLink = #{record.homelink,jdbcType=VARCHAR},
+      registrationTime = #{record.registrationtime,jdbcType=VARCHAR},
+      blogAuthenticate = #{record.blogauthenticate,jdbcType=VARCHAR},
+      industry = #{record.industry,jdbcType=VARCHAR},
+      BCI = #{record.bci,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.whj.usercenter.dao.Weibo" >
+    update weibo
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="fansnum != null" >
+        fansNum = #{fansnum,jdbcType=BIGINT},
+      </if>
+      <if test="blognum != null" >
+        blogNum = #{blognum,jdbcType=BIGINT},
+      </if>
+      <if test="originalblognum != null" >
+        originalBlogNum = #{originalblognum,jdbcType=BIGINT},
+      </if>
+      <if test="follownum != null" >
+        followNum = #{follownum,jdbcType=BIGINT},
+      </if>
+      <if test="homelink != null" >
+        homeLink = #{homelink,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationtime != null" >
+        registrationTime = #{registrationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="blogauthenticate != null" >
+        blogAuthenticate = #{blogauthenticate,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="bci != null" >
+        BCI = #{bci,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userId = #{userid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.whj.usercenter.dao.Weibo" >
+    update weibo
+    set username = #{username,jdbcType=VARCHAR},
+      fansNum = #{fansnum,jdbcType=BIGINT},
+      blogNum = #{blognum,jdbcType=BIGINT},
+      originalBlogNum = #{originalblognum,jdbcType=BIGINT},
+      followNum = #{follownum,jdbcType=BIGINT},
+      homeLink = #{homelink,jdbcType=VARCHAR},
+      registrationTime = #{registrationtime,jdbcType=VARCHAR},
+      blogAuthenticate = #{blogauthenticate,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      BCI = #{bci,jdbcType=VARCHAR}
+    where userId = #{userid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="../js/jquery-1.7.1.js"></script>
+		<link href="../css/basic_layout.css" rel="stylesheet" type="text/css">
+		<link href="../css/common_style.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="../js/commonAll.js"></script>
+		<script type="text/javascript" src="../js/jquery.fancybox-1.3.4.pack.js"></script>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script type="text/javascript" src="../js/jquery.fancybox-1.3.4.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/jquery.fancybox-1.3.4.css" media="screen"></link>
+		<title>用户信息</title>
+		<script type="text/javascript">
+			/** 输入页跳转 **/
+			function jumpInputPage(totalPage) {
+				// 如果“跳转页数”不为空
+				if($("#jumpNumTxt").val() == '') {
+					alert("跳转页数不能为空");
+				};
+			}
+		</script>
+		<style>
+			.alt td {
+				background: black !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<form id="submitForm" name="submitForm" action="" method="post">
+			<input type="hidden" name="allIDCheck" value="" id="allIDCheck" />
+			<input type="hidden" name="fangyuanEntity.fyXqName" value="" id="fyXqName" />
+			<div id="container">
+				<div style="width: 100%;height: 50px;text-align: center;line-height: 50px;">
+					<h1>用户展示</h1>
+				</div>
+				<div class="ui_content">
+					<div class="ui_tb">
+						<table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+							<tr>
+								<!--<th width="30"><input type="checkbox" id="all" onclick="selectOrClearAllCheckbox(this);" /></th>-->
+								<th>用户编号</th>
+								<th>用户姓名</th>
+								<th>粉丝数</th>
+								<th>微博数</th>
+								<th>原创微博数</th>
+								<th>关注数</th>
+								<th>主页链接</th>
+								<th>注册时间</th>
+								<th>微博认证</th>
+							</tr>
+							<tr v-for="r in rows">
+								<!--<td><input type="checkbox" name="IDCheck" value="14458579642011" class="acb" /></td>-->
+								<td>{{r.userid}}</td>
+								<td>{{r.username}}</td>
+								<td>{{r.fansnum}}</td>
+								<td>{{r.blognum}}</td>
+								<td>{{r.originalblognum}}</td>
+								<td>{{r.follownum}}</td>
+								<td>{{r.homelink}}</td>
+								<td>{{r.registrationtime}}</td>
+								<td>{{r.blogauthenticate}}</td>
+							</tr>
+
+						</table>
+					</div>
+					<div class="ui_tb_h30">
+						<div class="ui_flt" style="height: 30px; line-height: 30px;">
+							共有
+							<span class="ui_txt_bold04" id="total">{{message}}</span> 条记录，当前第
+							<span class="ui_txt_bold04" id="page">{{message}}</span>页，共
+							<span class="ui_txt_bold04" id="pages">{{message}}</span> 页
+						</div>
+						<!--<div class="ui_frt">-->
+							<!--&lt;!&ndash;    如果是第一页，则只显示下一页、尾页 &ndash;&gt;-->
+
+							<!--<input type="button" value="首页" class="ui_input_btn01" id="first" />-->
+							<!--<input type="button" value="上一页" class="ui_input_btn01" id="previous" />-->
+							<!--<input type="button" value="下一页" class="ui_input_btn01" id="next"/>-->
+							<!--<input type="button" value="尾页" class="ui_input_btn01" id="end"/>-->
+
+							<!--&lt;!&ndash;     如果是最后一页，则只显示首页、上一页 &ndash;&gt;-->
+
+							<!--转到第<input type="text" id="jumpNumTxt" class="ui_input_txt01" />页-->
+							<!--<input type="button" class="ui_input_btn01" id="jump" value="跳转" onclick="jumpInputPage()"/>-->
+						<!--</div>-->
+					</div>
+				</div>
+			</div>
+		</form>
+	</body>
+
+</html>
+<script type="text/javascript">
+	$(document).ready(function(){
+	var results = '';
+	$.ajax({
+		async: false, //设置同步
+		type: 'post',
+		contentType: 'application/json;charset=utf-8',
+		url: 'http://120.79.19.207:8000/query/info',
+		data: JSON.stringify({
+			"pageNum": 0
+		}),
+		dataType: 'json',
+		success: function(result) {
+			results = result;
+		},
+		error: function(result) {
+			alert('查询错误');
+		}
+	});
+	var card = new Vue({
+		el: '.ui_tb',
+		data: {
+			rows: results.t.list
+		}
+	})
+	var app = new Vue({
+		el: '#total',
+		data: {
+			message: results.t.total
+		}
+	})
+	var app = new Vue({
+		el: '#page',
+		data: {
+			message: results.t.pageNum
+		}
+	})
+	var app = new Vue({
+		el: '#pages',
+		data: {
+			message: results.t.pages
+		}
+	})
+	$("#first,#previous,#next,#end,#jump").click(function() {
+		console.log("21312121321")
+	if ($(this).val() == "首页") {
+		var pageNum = 1;
+	}
+	if ($(this).val() == "上一页") {
+		var pageNum = $("#page").val() - 1;
+	}
+	if ($(this).val() == "下一页") {
+		var pageNum = $("#page").val() + 1;
+	}
+	if ($(this).val() == "尾页") {
+	    var pageNum = $("#pages").val();
+	}	
+	if ($(this).val() == "跳转") {
+		var pageNum = $("#jumpNumTxt").val();
+	}
+	console.log(pageNum)
+	var results = '';
+	$.ajax({
+		async: false, //设置同步
+		type: 'post',
+		contentType: 'application/json;charset=utf-8',
+		url: 'http://120.79.19.207:8000/query/info',
+		data: JSON.stringify({
+			"pageNum": pageNum
+		}),
+		dataType: 'json',
+		success: function(result) {
+			results = result;
+		},
+		error: function(result) {
+			alert('查询错误');
+		}
+	});
+	var card = new Vue({
+		el: '.ui_tb',
+		data: {
+			rows: results.t.list
+		}
+	})
+	var app = new Vue({
+		el: '#total',
+		data: {
+			message: results.t.total
+		}
+	})
+	var app = new Vue({
+		el: '#page',
+		data: {
+			message: results.t.pageNum
+		}
+	})
+	var app = new Vue({
+		el: '#pages',
+		data: {
+			message: results.t.pages
+		}
+	})
+	})
+	})
+</script>
