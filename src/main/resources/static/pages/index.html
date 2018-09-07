@@ -68,9 +68,10 @@
 					<div class="ui_tb_h30">
 						<div class="ui_flt" style="height: 30px; line-height: 30px;">
 							共有
-							<span class="ui_txt_bold04" id="total">{{message}}</span> 条记录，当前第
-							<span class="ui_txt_bold04" id="page">{{message}}</span>页，共
-							<span class="ui_txt_bold04" id="pages">{{message}}</span> 页
+							<span class="ui_txt_bold04" id="total">{{message}}</span> 条记录
+                            <!--，当前第-->
+							<!--<span class="ui_txt_bold04" id="page">{{message}}</span>页，共-->
+							<!--<span class="ui_txt_bold04" id="pages">{{message}}</span> 页-->
 						</div>
 						<!--<div class="ui_frt">-->
 							<!--&lt;!&ndash;    如果是第一页，则只显示下一页、尾页 &ndash;&gt;-->
@@ -134,66 +135,6 @@
 		data: {
 			message: results.t.pages
 		}
-	})
-	$("#first,#previous,#next,#end,#jump").click(function() {
-		console.log("21312121321")
-	if ($(this).val() == "首页") {
-		var pageNum = 1;
-	}
-	if ($(this).val() == "上一页") {
-		var pageNum = $("#page").val() - 1;
-	}
-	if ($(this).val() == "下一页") {
-		var pageNum = $("#page").val() + 1;
-	}
-	if ($(this).val() == "尾页") {
-	    var pageNum = $("#pages").val();
-	}	
-	if ($(this).val() == "跳转") {
-		var pageNum = $("#jumpNumTxt").val();
-	}
-	console.log(pageNum)
-	var results = '';
-	$.ajax({
-		async: false, //设置同步
-		type: 'post',
-		contentType: 'application/json;charset=utf-8',
-		url: 'http://120.79.19.207:8000/query/info',
-		data: JSON.stringify({
-			"pageNum": pageNum
-		}),
-		dataType: 'json',
-		success: function(result) {
-			results = result;
-		},
-		error: function(result) {
-			alert('查询错误');
-		}
-	});
-	var card = new Vue({
-		el: '.ui_tb',
-		data: {
-			rows: results.t.list
-		}
-	})
-	var app = new Vue({
-		el: '#total',
-		data: {
-			message: results.t.total
-		}
-	})
-	var app = new Vue({
-		el: '#page',
-		data: {
-			message: results.t.pageNum
-		}
-	})
-	var app = new Vue({
-		el: '#pages',
-		data: {
-			message: results.t.pages
-		}
-	})
 	})
 	})
 </script>

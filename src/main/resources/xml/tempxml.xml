@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workbook>
+    <sheets>
+        <sheet name = "名单列表">
+            <row>
+                <cell>用户id</cell>
+                <cell>用户昵称</cell>
+                <cell>关注数</cell>
+                <cell>粉丝数</cell>
+                <cell>微博数</cell>
+                <cell>原创微博数</cell>
+                <cell>主页</cell>
+                <cell>注册时间</cell>
+                <cell>微博认证</cell>
+                <cell>行业类别</cell>
+                <cell>BCI</cell>
+            </row>
+        </sheet>
+    </sheets>
+</workbook>

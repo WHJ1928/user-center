@@ -33,7 +33,7 @@ public class WeiboServiceImpl implements WeiboService{
     private int pageSize;
     @Override
     public BaseResDto<JSONObject> queryAllInfo(QueryAllReqDto reqDto) {
-        int pageNum = reqDto.getPageNum();
+        int pageNum = 20;
         PageHelper.startPage(pageNum,pageSize);
         List<WeiboInfo> weiboList = weiboMapper.selectAll();
         PageInfo<WeiboInfo> pageInfo = new PageInfo<>(weiboList);
