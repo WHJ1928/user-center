@@ -35,8 +35,8 @@ public class WeiboServiceImpl implements WeiboService{
     public BaseResDto<JSONObject> queryAllInfo(QueryAllReqDto reqDto) {
         int pageNum = 20;
         PageHelper.startPage(pageNum,pageSize);
-        List<WeiboInfo> weiboList = weiboMapper.selectAll();
-        PageInfo<WeiboInfo> pageInfo = new PageInfo<>(weiboList);
+        List<Weibo> weiboList = weiboMapper.selectAll();
+        PageInfo<Weibo> pageInfo = new PageInfo<>(weiboList);
         BaseResDto baseResDto = BaseResDto.createResult(BaseResDto.SUCCESS,BaseResDto.SUC_MSG);
         baseResDto.setT(pageInfo);
         return baseResDto;

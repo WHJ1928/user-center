@@ -1,11 +1,14 @@
 package com.whj.usercenter.util;
 
+import com.whj.usercenter.dao.Weibo;
+import com.whj.usercenter.mapper.WeiboMapper;
 import org.dom4j.*;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +27,8 @@ public class XmlUtil {
 
     private static final String CLASSPATH_XML_CELLXML_XML = "xml/cellxml.xml";
     private static final String CLASSPATH_XML_TEMPXML_XML = "xml/tempxml.xml";
-
+    @Autowired
+    private WeiboMapper weiboMapper;
     /**
      * 修改xml文件
      * @param str

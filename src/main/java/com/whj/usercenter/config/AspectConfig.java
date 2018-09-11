@@ -49,7 +49,7 @@ public class AspectConfig {
         String methodname = joinPoint.getSignature().getName();
         Object[] args = joinPoint.getArgs();
         if (ArrayUtils.isNotEmpty(args)){
-            LogOut.info(logger, "调用", "用户中心", "请求参数", "", JSON.toJSONString(args));
+            LogOut.info(logger, "调用", "用户中心", "请求参数", "", args.toString());
             LogOut.info(logger, "", "", "接口地址", "", getServiceKey());
         }
     }
@@ -65,7 +65,7 @@ public class AspectConfig {
     public void outputLog(JoinPoint joinPoint,Object retVal) throws IllegalArgumentException,IllegalAccessException {
         String classname = joinPoint.getTarget().getClass().getName();
         String methodname = joinPoint.getSignature().getName();
-        LogOut.info(logger, "调用", "用户中心", "响应参数", "", JSON.toJSONString(retVal));
+        LogOut.info(logger, "调用", "用户中心", "响应参数", "", retVal.toString());
     }
 
     /**

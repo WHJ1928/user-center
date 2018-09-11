@@ -1,8 +1,11 @@
 package com.whj.usercenter.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.whj.usercenter.dao.Weibo;
 import com.whj.usercenter.dto.BaseResDto;
+import com.whj.usercenter.mapper.WeiboMapper;
 import com.whj.usercenter.service.TestService;
+import com.whj.usercenter.util.DownloadExcel;
 import com.whj.usercenter.util.MakeTemp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayInputStream;
 import java.net.URLEncoder;
+import java.util.List;
 
 /**
  * @author wanghaijun
@@ -28,6 +32,8 @@ public class TestController {
 
     @Autowired
     private TestService testService;
+    @Autowired
+    private WeiboMapper weiboMapper;
 
     @RequestMapping(value = "/query/userinfo",method = RequestMethod.GET)
     public @ResponseBody
@@ -35,11 +41,13 @@ public class TestController {
         return testService.userInfo();
     }
 
-    @RequestMapping(value = "/media", method = RequestMethod.GET)
+    @RequestMapping(value = "/download/userlist")
     public @ResponseBody
     ResponseEntity<InputStreamResource> downloadFile()
             throws Exception {
-        ByteArrayInputStream inputStream = MakeTemp.getInputStream();
+        List<Weibo> weiboList = weiboMapper.selectAll();
+//        ByteArrayInputStream inputStream = MakeTemp.getInputStream();
+        ByteArrayInputStream inputStream = DownloadExcel.prepareModule(weiboList);
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");

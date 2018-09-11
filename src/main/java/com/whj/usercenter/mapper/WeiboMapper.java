@@ -35,6 +35,8 @@ public interface WeiboMapper {
 
     @Select("SELECT userId FROM weibo WHERE blogAuthenticate IS NULL")
     List<String> selectUserId();
-    @Select("SELECT userId,username,fansNum,blogNum,originalBlogNum,followNum,homeLink,registrationTime,blogAuthenticate FROM weibo")
-    List<WeiboInfo> selectAll();
+//    @Select("SELECT userId,username,fansNum,blogNum,originalBlogNum,followNum,homeLink,registrationTime,blogAuthenticate FROM weibo")
+//    List<WeiboInfo> selectAll();
+    @Select("SELECT * FROM weibo")
+    List<Weibo> selectAll();
 }
