@@ -38,7 +38,9 @@
         </javaClientGenerator>
 
         <!-- 相关表的配置-->
-        <table tableName="user_message"/>
+        <!--<table tableName="user_message"/>-->
+        <!--<table tableName="blog"/>-->
+        <table tableName="follow_list"/>
         <!--<table tableName="p_blacklist" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
 
     </context>

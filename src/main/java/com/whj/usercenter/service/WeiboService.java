@@ -3,6 +3,7 @@ package com.whj.usercenter.service;
 import com.alibaba.fastjson.JSONObject;
 import com.whj.usercenter.dto.BaseResDto;
 import com.whj.usercenter.dto.request.QueryAllReqDto;
+import com.whj.usercenter.dto.request.QueryBciRepDto;
 
 /**
  * @author wanghaijun
@@ -16,4 +17,9 @@ public interface WeiboService {
      * @return
      */
     BaseResDto<JSONObject> queryAllInfo(QueryAllReqDto reqDto);
+
+    /**
+     * 查询bci
+     */
+    BaseResDto<JSONObject> queryBci(QueryBciRepDto repDto);
 }

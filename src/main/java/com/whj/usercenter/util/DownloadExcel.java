@@ -12,6 +12,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -69,9 +70,14 @@ public class DownloadExcel {
             cell = xssfRow.createCell(2);
             cell.setCellStyle(cellStyle);
             cell.setCellValue(weibo.getFollownum());
+            //1.将粉丝数转换成以万为单位的数字
+            double d = (double) weibo.getFansnum();
+            double num = d / 10000;
+            BigDecimal b = new BigDecimal(num);
+            double f1 = b.setScale(1,BigDecimal.ROUND_HALF_UP).doubleValue();
             cell = xssfRow.createCell(3);
             cell.setCellStyle(cellStyle);
-            cell.setCellValue(weibo.getFansnum());
+            cell.setCellValue(f1);
             cell = xssfRow.createCell(4);
             cell.setCellStyle(cellStyle);
             cell.setCellValue(weibo.getBlognum());

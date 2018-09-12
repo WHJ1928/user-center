@@ -15,4 +15,9 @@ public class IndexController {
     public String index(){
         return "index";
     }
+
+    @RequestMapping("/bci")
+    public String bci(){
+        return "bci";
+    }
 }

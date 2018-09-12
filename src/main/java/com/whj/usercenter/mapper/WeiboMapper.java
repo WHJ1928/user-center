@@ -33,7 +33,7 @@ public interface WeiboMapper {
 
     int updateByPrimaryKey(Weibo record);
 
-    @Select("SELECT userId FROM weibo WHERE blogAuthenticate IS NULL")
+    @Select("SELECT userId FROM weibo")
     List<String> selectUserId();
 //    @Select("SELECT userId,username,fansNum,blogNum,originalBlogNum,followNum,homeLink,registrationTime,blogAuthenticate FROM weibo")
 //    List<WeiboInfo> selectAll();

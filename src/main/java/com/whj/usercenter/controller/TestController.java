@@ -41,7 +41,7 @@ public class TestController {
         return testService.userInfo();
     }
 
-    @RequestMapping(value = "/download/userlist")
+    @RequestMapping(value = "/download/userlist",method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<InputStreamResource> downloadFile()
             throws Exception {
