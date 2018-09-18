@@ -5,7 +5,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.whj.usercenter.dao.Blog;
 import com.whj.usercenter.dao.BlogExample;
-import com.whj.usercenter.dao.BlogSum;
 import com.whj.usercenter.dao.Weibo;
 import com.whj.usercenter.dto.BaseResDto;
 import com.whj.usercenter.dto.request.QueryAllReqDto;
@@ -58,21 +57,22 @@ public class WeiboServiceImpl implements WeiboService{
         List<String> strings = weiboMapper.selectUserId();
         for (String userId:strings){
             Weibo weibo = weiboMapper.selectByPrimaryKey(userId);
-            double x1 = 0.3*Math.log(weibo.getBlognum().doubleValue()+1);
-            double x2 = 0.7*Math.log(weibo.getOriginalblognum().doubleValue()+1);
-            double w1 = x1+x2;
-            double w2;
             //计算微博数据
             BlogExample example = new BlogExample();
             example.createCriteria().andUserIdEqualTo(userId)
                     .andCreatedTimeEqualTo(time);
             List<Blog> blogs = blogMapper.selectByExample(example);
 //            BlogSum blog = blogMapper.selectBlogSum(example);
-//            //计算原创微博的数据
-//            BlogExample blogExample = new BlogExample();
-//            blogExample.createCriteria().andUserIdEqualTo(userId)
-//                    .andCreatedTimeEqualTo(time).andOriginalFlagEqualTo("1");
+            //计算原创微博的数据
+            BlogExample blogExample = new BlogExample();
+            blogExample.createCriteria().andUserIdEqualTo(userId)
+                    .andCreatedTimeEqualTo(time).andOriginalFlagEqualTo("1");
+            List<Blog> blogList = blogMapper.selectByExample(blogExample);
 //            BlogSum blogSum = blogMapper.selectBlogSum(blogExample);
+            double x1 = 0.3*Math.log(blogs.size()+1);
+            double x2 = 0.7*Math.log(blogList.size()+1);
+            double w1 = x1+x2;
+            double w2;
             int forward =0;
             int comment =0;
             int likes =0;
@@ -83,10 +83,6 @@ public class WeiboServiceImpl implements WeiboService{
                     forward += Integer.parseInt(blog.getForwardNum());
                     comment += Integer.parseInt(blog.getCommentNum());
                     likes += Integer.parseInt(blog.getLikesNum());
-                    if ("1".equals(blog.getOriginalFlag())){
-                        orgForward += Integer.parseInt(blog.getForwardNum());
-                        orgComment += Integer.parseInt(blog.getCommentNum());
-                    }
                 }
 //                double x3 = 0.2*Math.log(Double.parseDouble(blog.getForwardSum())+1);
 //                double x4 = 0.2*Math.log(Double.parseDouble(blog.getCommentSum())+1);
@@ -97,6 +93,12 @@ public class WeiboServiceImpl implements WeiboService{
                 double x3 = 0.2*Math.log(forward+1);
                 double x4 = 0.2*Math.log(comment+1);
                 //原创
+                if (!ObjectUtils.isEmpty(blogList)){
+                    for (Blog org:blogList){
+                        orgForward += Integer.parseInt(org.getForwardNum());
+                        orgComment += Integer.parseInt(org.getCommentNum());
+                    }
+                }
                 double x5 = 0.25*Math.log(orgForward+1);
                 double x6 = 0.25*Math.log(orgComment+1);
                 double x7 = 0.1*Math.log(likes+1);
@@ -106,8 +108,8 @@ public class WeiboServiceImpl implements WeiboService{
             }
             double bci = 160*(0.2*w1 + 0.8*w2);
             QueryBciResDto queryBciResDto = new QueryBciResDto();
-            queryBciResDto.setBlogNum(weibo.getBlognum().toString());
-            queryBciResDto.setOriginalBlogNum(weibo.getOriginalblognum().toString());
+            queryBciResDto.setBlogNum(String.valueOf(blogs.size()));
+            queryBciResDto.setOriginalBlogNum(String.valueOf(blogList.size()));
             queryBciResDto.setComment(comment);
             queryBciResDto.setForward(forward);
             queryBciResDto.setLikes(likes);
